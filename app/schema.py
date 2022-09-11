@@ -1,8 +1,13 @@
 from typing import Optional
 from datetime import datetime
 import uuid
+import enum
 
 from pydantic import BaseModel, EmailStr, constr
+
+class LanguageEnum(str, enum.Enum):
+    english = 'English'
+    german = 'German'
 
 class UserBaseSchema(BaseModel):
     first_name: Optional[str]
@@ -27,3 +32,26 @@ class UserResponse(UserBaseSchema):
     id: uuid.UUID
     created_at: datetime
     updated_at: datetime
+
+class CourseBaseSchema(BaseModel):
+    name: str
+    description: Optional[str]
+    photo: Optional[str]
+
+    class Config:
+        orm_mode=True
+
+class CreateCourseSchema(CourseBaseSchema):
+    identifier: Optional[str]
+    language: Optional[LanguageEnum]
+    parent_id: Optional[str]
+    user_id: str
+
+class ComponentBaseSchema(BaseModel):
+    element: str
+    
+    class Config:
+        orm_mode=True
+
+class CreateComponentSchema(ComponentBaseSchema):
+    page_id: str
