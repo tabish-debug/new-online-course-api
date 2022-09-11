@@ -22,7 +22,7 @@ class User(Base):
     photo = Column(String, nullable=True)
     verified = Column(Boolean, nullable=False, server_default='False')
     role = Column(String, server_default='user', nullable=False)
-    courses = relationship("Course", back_populates="user")
+    courses = relationship("Course")
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text("now()"))
     updated_at = Column(TIMESTAMP(timezone=True),
@@ -40,7 +40,7 @@ class Course(Base):
     parent_id = Column(UUID(as_uuid=True), ForeignKey('course.id'))
     user_id = Column(UUID(as_uuid=True), ForeignKey('user.id'), nullable=False)
     childrens = relationship("Course")
-    components = relationship("Component", back_populates="page")
+    components = relationship("Component")
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text("now()"))
     updated_at = Column(TIMESTAMP(timezone=True),
